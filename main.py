@@ -8,24 +8,18 @@ from dotenv import load_dotenv
 import requests
 
 
-def get_image(image_url, folder_path, image_name, image_number):
+load_dotenv()
+
+
+def get_image(image_url, image_number):
     response = requests.get(image_url)
     response.raise_for_status
 
     image_extension = get_image_extension(image_url)
-    Path(folder_path).mkdir(parents=True, exist_ok=True)
-    with open(f'{folder_path}{image_name}{image_number}{image_extension}',
+    Path('images/').mkdir(parents=True, exist_ok=True)
+    with open(f'images/spacex{image_number}{image_extension}',
               'wb') as file:
         file.write(response.content)
-
-
-def fetch_spacex_last_launch(spacex_url, folder_path, image_name):
-    response = requests.get(spacex_url)
-    response.raise_for_status()
-    image_url = response.json()['links']['flickr']['original']
-
-    for image_number, image_url in enumerate(image_url):
-        get_image(image_url, folder_path, image_name, image_number)
 
 
 def get_image_extension(image_url):
@@ -84,13 +78,8 @@ def get_epic_image(nasa_api_key, image_url, folder_path,
 
 
 def main():
-    id_launch_spacex = '6243adcaaf52800c6e919254'
-    spacex_url = f'https://api.spacexdata.com/v5/launches/{id_launch_spacex}'
-    fetch_spacex_last_launch(spacex_url, 'images/', 'spacex')
-
-    load_dotenv()
     nasa_api_key = os.environ['NASA_API_KEY']
-    
+
     nasa_apod_url = 'https://api.nasa.gov/planetary/apod'
     fetch_nasa_apod(nasa_apod_url, nasa_api_key, 'images/', 'nasa_apod')
 

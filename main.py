@@ -8,9 +8,6 @@ from dotenv import load_dotenv
 import requests
 
 
-load_dotenv()
-
-
 def get_image(image_url, image_number):
     response = requests.get(image_url)
     response.raise_for_status
@@ -27,24 +24,6 @@ def get_image_extension(image_url):
     file_extension = splitext(image_path)[1]
 
     return file_extension
-
-
-def fetch_nasa_apod(nasa_apod_url, nasa_api_key, folder_path, image_name):
-    params = {
-        'api_key': nasa_api_key,
-        'count': 5
-    }
-    response = requests.get(nasa_apod_url, params=params)
-    response.raise_for_status()
-
-    nasa_images_url = []
-    for image_url in response.json():
-        picture_url = image_url.get('hdurl')
-        if picture_url:
-            nasa_images_url.append(picture_url)
-
-    for image_number, image_url in enumerate(nasa_images_url):
-        get_image(image_url, folder_path, image_name, image_number)
 
 
 def fetch_epic(epic_url, nasa_api_key, folder_path, image_name, count_images):
@@ -78,10 +57,8 @@ def get_epic_image(nasa_api_key, image_url, folder_path,
 
 
 def main():
+    load_dotenv()
     nasa_api_key = os.environ['NASA_API_KEY']
-
-    nasa_apod_url = 'https://api.nasa.gov/planetary/apod'
-    fetch_nasa_apod(nasa_apod_url, nasa_api_key, 'images/', 'nasa_apod')
 
     epic_url = 'https://api.nasa.gov/EPIC/api/natural/images'
     fetch_epic(epic_url, nasa_api_key, 'images/', 'nasa_epic', 5)

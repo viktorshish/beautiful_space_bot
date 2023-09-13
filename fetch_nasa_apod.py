@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 import requests
 
-from main import get_image
+from get_image import get_image
 
 
 def fetch_nasa_apod(nasa_apod_url, nasa_api_key, count):

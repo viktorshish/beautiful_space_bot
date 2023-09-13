@@ -2,7 +2,7 @@ import argparse
 
 import requests
 
-from main import get_image
+from get_image import get_image
 
 
 def fetch_spacex_last_launch(spacex_url):

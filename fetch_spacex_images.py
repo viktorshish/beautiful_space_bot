@@ -15,8 +15,11 @@ def fetch_spacex_last_launch(spacex_url):
 
     return response.json()
 
+
 def main():
-    parser = argparse.ArgumentParser(description='Скачивает фотографии с сайта SpaceX')
+    parser = argparse.ArgumentParser(
+        description='Скачивание фотографий с сайта SpaceX'
+    )
     parser.add_argument('-id', '--launch_id', help='ID запуска')
     args = parser.parse_args()
 
@@ -24,8 +27,8 @@ def main():
 
     try:
         fetch_spacex_last_launch(spacex_url)
-    except requests.exceptions.HTTPError as error:
-        exit('Фотографий с последнего запуска нет'.format(error))
+    except requests.exceptions.HTTPError:
+        exit('Фотографий с последнего запуска нет')
 
 
 if __name__ == '__main__':

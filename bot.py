@@ -7,10 +7,17 @@ import telegram
 load_dotenv()
 
 
-if __name__ == '__main__':
+def main():
     telegram_token = os.environ['TELEGRAM_TOKEN']
+
     bot = telegram.Bot(token=telegram_token)
 
-    updates = bot.get_updates()
+    bot.send_message(chat_id='-1001902360778', text='Hello')
+    bot.send_document(
+        chat_id='-1001902360778',
+        document=open('images/spacex7.gif', 'rb')
+    )
 
-    bot.send_message(chat_id='@test_grous', text='Hello')
+
+if __name__ == '__main__':
+    main()

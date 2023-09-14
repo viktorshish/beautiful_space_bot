@@ -7,7 +7,7 @@ import requests
 from get_image import get_image
 
 
-def fetch_nasa_apod(nasa_apod_url, nasa_api_key, count):
+def fetch_nasa_apod(nasa_apod_url, nasa_api_key, count, image_name):
     params = {
         'api_key': nasa_api_key,
         'count': count
@@ -18,7 +18,7 @@ def fetch_nasa_apod(nasa_apod_url, nasa_api_key, count):
     if not count:
         last_image_url = response.json().get('hdurl')
         image_number = 1
-        get_image(last_image_url, image_number)
+        get_image(last_image_url, image_number, image_name)
     else:
         nasa_images_url = []
         for image_url in response.json():
@@ -27,7 +27,7 @@ def fetch_nasa_apod(nasa_apod_url, nasa_api_key, count):
                 nasa_images_url.append(picture_url)
 
         for image_number, image_url in enumerate(nasa_images_url):
-            get_image(image_url, image_number)
+            get_image(image_url, image_number, image_name)
 
 
 def main():
@@ -36,6 +36,7 @@ def main():
     parser = argparse.ArgumentParser(
         description='Скачивание фотографий APOD с сайта NASA'
     )
+    parser.add_argument('name', help='Имя фотографии')
     parser.add_argument('-c', '--count',
                         help='Количество скачиваемых фотографий')
     args = parser.parse_args()
@@ -44,7 +45,7 @@ def main():
     nasa_apod_url = 'https://api.nasa.gov/planetary/apod'
 
     try:
-        fetch_nasa_apod(nasa_apod_url, nasa_api_key, args.count)
+        fetch_nasa_apod(nasa_apod_url, nasa_api_key, args.count, args.name)
     except requests.exceptions.HTTPError:
         exit('Некоректно указано количество скачиваемых фотографий')
 

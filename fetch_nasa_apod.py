@@ -42,11 +42,12 @@ def main():
 
     nasa_api_key = os.environ['NASA_API_KEY']
     nasa_apod_url = 'https://api.nasa.gov/planetary/apod'
-    
+
     try:
         fetch_nasa_apod(nasa_apod_url, nasa_api_key, args.count)
     except requests.exceptions.HTTPError:
         exit('Некоректно указано количество скачиваемых фотографий')
+
 
 if __name__ == '__main__':
     main()

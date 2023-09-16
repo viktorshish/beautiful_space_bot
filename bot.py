@@ -1,4 +1,7 @@
+import argparse
 import os
+import random
+from time import sleep
 
 from dotenv import load_dotenv
 import telegram
@@ -7,16 +10,51 @@ import telegram
 load_dotenv()
 
 
-def main():
-    telegram_token = os.environ['TELEGRAM_TOKEN']
+def get_filename_images():
+    with os.scandir('images/') as files:
+        name_images = []
+        for file in files:
+            name_images.append(file.name)
 
+    return name_images
+
+
+def run_bot(args):
+    interval_time_in_seconds = 14400
+    name_images = get_filename_images()
+
+    telegram_token = os.environ['TELEGRAM_TOKEN']
+    channel_id = os.environ['CHANNEL_ID']
     bot = telegram.Bot(token=telegram_token)
 
-    bot.send_message(chat_id='-1001902360778', text='Hello')
-    bot.send_document(
-        chat_id='-1001902360778',
-        document=open('images/spacex7.gif', 'rb')
-    )
+    if args.name:
+        bot.send_document(
+                chat_id=channel_id,
+                document=open(f'images/{args.name}', 'rb')
+        )
+    else:
+        while True:
+            if not args.name:
+                for name_image in name_images:
+                    bot.send_document(
+                        chat_id=channel_id,
+                        document=open(f'images/{name_image}', 'rb')
+                    )
+                    if not args.time:
+                        sleep(interval_time_in_seconds)
+                    else:
+                        sleep(int(args.time))
+                random.shuffle(name_images)
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Запуск Телеграм Бота')
+    parser.add_argument('-t', '--time',
+                        help='Время частоты публикации фотографий')
+    parser.add_argument('-n', '--name', help='Имя фотографии')
+    args = parser.parse_args()
+
+    run_bot(args)
 
 
 if __name__ == '__main__':

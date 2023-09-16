@@ -32,25 +32,29 @@ def run_bot(args):
                 chat_id=channel_id,
                 document=open(f'images/{args.name}', 'rb')
         )
-    else:
+    elif args.all:
         while True:
-            if not args.name:
-                for name_image in name_images:
-                    bot.send_document(
-                        chat_id=channel_id,
-                        document=open(f'images/{name_image}', 'rb')
-                    )
-                    if not args.time:
-                        sleep(interval_time_in_seconds)
-                    else:
-                        sleep(int(args.time))
-                random.shuffle(name_images)
+            for name_image in name_images:
+                bot.send_document(
+                    chat_id=channel_id,
+                     document=open(f'images/{name_image}', 'rb')
+                )
+            if not args.time:
+                sleep(interval_time_in_seconds)
+            else:
+                sleep(int(args.time))
+            random.shuffle(name_images)
+    else:
+        bot.send_document(
+                chat_id=channel_id,
+                document=open(f'images/{random.choice(name_images)}', 'rb')
+        )
 
 
 def main():
     parser = argparse.ArgumentParser(description='Запуск Телеграм Бота')
-    parser.add_argument('-t', '--time',
-                        help='Время частоты публикации фотографий')
+    parser.add_argument('-a', '--all', help='Публикация всех скачанных фотографий')
+    parser.add_argument('-t', '--time', help='Время частоты публикации фотографий')
     parser.add_argument('-n', '--name', help='Имя фотографии')
     args = parser.parse_args()
 

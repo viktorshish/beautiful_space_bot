@@ -19,42 +19,51 @@ def get_filename_images():
     return name_images
 
 
-def run_bot(args):
-    interval_time_in_seconds = 14400
-    name_images = get_filename_images()
-
+def send_document(file_name):
     telegram_token = os.environ['TELEGRAM_TOKEN']
     channel_id = os.environ['CHANNEL_ID']
     bot = telegram.Bot(token=telegram_token)
+    bot.send_document(
+        chat_id=channel_id,
+        document=open(f'images/{file_name}', 'rb')
+    )
+
+
+def run_bot(args):
+    four_hour_interval = 14400
+    image_names = get_filename_images()
 
     if args.name:
-        bot.send_document(
-                chat_id=channel_id,
-                document=open(f'images/{args.name}', 'rb')
-        )
+        send_document(args.name)
+
     elif args.all:
         while True:
-            for name_image in name_images:
-                bot.send_document(
-                    chat_id=channel_id,
-                     document=open(f'images/{name_image}', 'rb')
-                )
-            if not args.time:
-                sleep(interval_time_in_seconds)
-            else:
-                sleep(int(args.time))
-            random.shuffle(name_images)
+            for image_name in image_names:
+                send_document(image_name)
+                if not args.time:
+                    sleep(four_hour_interval)
+                else:
+                    sleep(args.time)
+            random.shuffle(image_names)
+
     else:
-        bot.send_document(
-                chat_id=channel_id,
-                document=open(f'images/{random.choice(name_images)}', 'rb')
-        )
+        send_document(random.choice(image_names))
 
 
 def main():
     parser = argparse.ArgumentParser(description='Запуск Телеграм Бота')
-    parser.add_argument('-a', '--all', help='Публикация всех скачанных фотографий')
-    parser.add_argument('-t', '--time', help='Время частоты публикации фотографий')
+    parser.add_argument(
+        '-a',
+        '--all',
+        help='Публикация всех скачанных фотографий',
+        action='store_true'
+    )
+    parser.add_argument(
+        '-t',
+        '--time',
+        help='Время частоты публикации фотографий',
+        type=int
+    )
     parser.add_argument('-n', '--name', help='Имя фотографии')
     args = parser.parse_args()
 

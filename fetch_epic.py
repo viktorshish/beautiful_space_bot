@@ -10,6 +10,7 @@ import requests
 def fetch_epic(epic_url, nasa_api_key):
     params = {'api_key': nasa_api_key}
     response = requests.get(epic_url, params)
+    
 
     epic_images_url = []
     for image_url in response.json():
@@ -36,7 +37,7 @@ def get_epic_image(nasa_api_key, image_url, image_number):
 
 def main():
     load_dotenv()
-    
+
     nasa_api_key = os.environ['NASA_API_KEY']
 
     parser = argparse.ArgumentParser(

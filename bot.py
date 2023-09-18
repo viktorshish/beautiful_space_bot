@@ -18,10 +18,9 @@ def get_filename_images():
 
 def send_document(file_name, telegram_token, channel_id):
     bot = telegram.Bot(token=telegram_token)
-    bot.send_document(
-        chat_id=channel_id,
-        document=open(f'images/{file_name}', 'rb')
-    )
+    with open(f'images/{file_name}', 'rb') as f:
+        document = f.read()
+    bot.send_document(chat_id=channel_id, document=document)
 
 
 def run_bot(

@@ -7,9 +7,6 @@ from dotenv import load_dotenv
 import telegram
 
 
-load_dotenv()
-
-
 def get_filename_images():
     with os.scandir('images/') as files:
         name_images = []
@@ -51,6 +48,8 @@ def run_bot(args):
 
 
 def main():
+    load_dotenv()
+
     parser = argparse.ArgumentParser(description='Запуск Телеграм Бота')
     parser.add_argument(
         '-a',

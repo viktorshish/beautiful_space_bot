@@ -36,6 +36,7 @@ def get_epic_image(nasa_api_key, image_url, image_number):
 
 def main():
     load_dotenv()
+    
     nasa_api_key = os.environ['NASA_API_KEY']
 
     parser = argparse.ArgumentParser(

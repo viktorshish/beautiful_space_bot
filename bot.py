@@ -26,21 +26,21 @@ def send_document(file_name):
     )
 
 
-def run_bot(args):
+def run_bot(image_picture, all_images, posting_time):
     four_hour_interval = 14400
     image_names = get_filename_images()
 
-    if args.name:
-        send_document(args.name)
+    if image_picture:
+        send_document(image_picture)
 
-    elif args.all:
+    elif all_images:
         while True:
             for image_name in image_names:
                 send_document(image_name)
-                if not args.time:
+                if not posting_time:
                     sleep(four_hour_interval)
                 else:
-                    sleep(args.time)
+                    sleep(posting_time)
             random.shuffle(image_names)
 
     else:
@@ -66,7 +66,7 @@ def main():
     parser.add_argument('-n', '--name', help='Имя фотографии')
     args = parser.parse_args()
 
-    run_bot(args)
+    run_bot(args.name, args.all, args.time)
 
 
 if __name__ == '__main__':

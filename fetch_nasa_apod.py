@@ -20,14 +20,18 @@ def fetch_nasa_apod(nasa_apod_url, nasa_api_key, count, image_name):
         image_number = 1
         get_image(last_image_url, image_number, image_name)
     else:
-        nasa_images_url = []
-        for image_url in response.json():
+        for image_number, image_url in enumerate(response.json()):
             picture_url = image_url.get('hdurl')
             if picture_url:
-                nasa_images_url.append(picture_url)
+                get_image(picture_url, image_number, image_name)       
+        # nasa_images_url = []
+        # for image_url in response.json():
+        #     picture_url = image_url.get('hdurl')
+        #     if picture_url:
+        #         nasa_images_url.append(picture_url)
 
-        for image_number, image_url in enumerate(nasa_images_url):
-            get_image(image_url, image_number, image_name)
+        # for image_number, image_url in enumerate(nasa_images_url):
+        #     get_image(image_url, image_number, image_name)
 
 
 def main():

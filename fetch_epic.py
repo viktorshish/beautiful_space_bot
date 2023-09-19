@@ -10,7 +10,7 @@ import requests
 def fetch_epic(epic_url, nasa_api_key):
     params = {'api_key': nasa_api_key}
     response = requests.get(epic_url, params)
-    
+    response.raise_for_status()
 
     epic_images_url = []
     for image_url in response.json():

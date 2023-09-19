@@ -26,10 +26,7 @@ def main():
 
     spacex_url = f'https://api.spacexdata.com/v5/launches/{args.launch_id}'
 
-    try:
-        fetch_spacex_last_launch(spacex_url, args.name)
-    except requests.exceptions.HTTPError:
-        exit('Фотографий с последнего запуска нет')
+    fetch_spacex_last_launch(spacex_url, args.name)
 
 
 if __name__ == '__main__':

@@ -17,13 +17,12 @@ def fetch_nasa_apod(nasa_apod_url, nasa_api_key, count, image_name):
 
     if not count:
         last_image_url = response.json().get('hdurl')
-        image_number = 1
-        get_image(last_image_url, image_number, image_name)
+        get_image(last_image_url, image_name)
     else:
         for image_number, image_url in enumerate(response.json()):
             picture_url = image_url.get('hdurl')
             if picture_url:
-                get_image(picture_url, image_number, image_name)
+                get_image(picture_url, image_name, image_number)
 
 
 def main():

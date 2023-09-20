@@ -26,22 +26,22 @@ pip install -r requirements.txt
 ## Использование
 ### fetch_spacex_images
 - Загрузит фото от SpaceX по-указанному ID запуска.
-  ```
-  python fetch_spacex_images.py ИМЯ_ФОТО -id ID_ЗАПУСКА
-  ```
-    где:
-    **ИМЯ_ФОТО** - как хотите назвать скачанные фотографии, **указывать обязательно**.
+  
+```
+python fetch_spacex_images.py ИМЯ_ФОТО -id ID_ЗАПУСКА
+```
+где: **ИМЯ_ФОТО** - как хотите назвать скачанные фотографии, **указывать обязательно**.
 
-     **ID_ЗАПУСКА** - выглядит наподобие такой строки: **6243adcaaf52800c6e919254**. Можно получить по [АПИ](https://api.spacexdata.com/v5/launches)
+**ID_ЗАПУСКА** - выглядит наподобие такой строки: **6243adcaaf52800c6e919254**. Можно получить по [АПИ](https://api.spacexdata.com/v5/launches)
 
 - Если ID запуска не указан, качает фото с последнего запуска:
-  ```
-  python fetch_spacex_images.py ИМЯ_ФОТО
-  ```
+```
+python fetch_spacex_images.py ИМЯ_ФОТО
+```
 - Получить краткую справку по скрипту:
-  ```
-  python fetch_spacex_images.py -h
-  ```
+```
+python fetch_spacex_images.py -h
+```
 ***
 ### fetch_nasa_apod
 - Загрузит APOD-фотографию NASA
@@ -62,11 +62,13 @@ python fetch_nasa_apod.py -h
 ### fetch_epic
 - Загрузит вчерашние EPIC-фотографии NASA.
 ```
-python fetch_epic.py
+python fetch_epic.py ИМЯ_ФОТО
 ```
+где:
+    **ИМЯ_ФОТО** - как хотите назвать скачанные фотографии, **указывать обязательно**.
 - Загрузит EPIC-фотографии на нужную дату:
 ```
-python fetch_epic.py -d ДАТА
+python fetch_epic.py ИМЯ_ФОТО -d ДАТА
 ```
 Дату укажите в формате **YYYY-MM-DD**
 - Получить краткую справку по скрипту:

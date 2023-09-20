@@ -1,13 +1,14 @@
 import argparse
 import datetime
-from pathlib import Path
 import os
 
 from dotenv import load_dotenv
 import requests
 
+from get_image import get_image
 
-def fetch_epic(epic_url, nasa_api_key):
+
+def fetch_epic(epic_url, nasa_api_key, picture_name):
     params = {'api_key': nasa_api_key}
     response = requests.get(epic_url, params)
     response.raise_for_status()
@@ -17,18 +18,8 @@ def fetch_epic(epic_url, nasa_api_key):
         formated_date = datetime.datetime.fromisoformat(image_date)
         format_date = formated_date.strftime('%Y/%m/%d')
         image_name = image_url['image']
-        image_url = f'https://api.nasa.gov/EPIC/archive/natural/{format_date}/png/{image_name}.png'
-        get_epic_image(nasa_api_key, image_url, image_number)
-
-
-def get_epic_image(nasa_api_key, image_url, image_number):
-    params = {'api_key': nasa_api_key}
-    response = requests.get(image_url, params)
-    response.raise_for_status
-
-    Path('images').mkdir(parents=True, exist_ok=True)
-    with open(f'images/nasa_epic{image_number}.png', 'wb') as file:
-        file.write(response.content)
+        picture_url = f'https://api.nasa.gov/EPIC/archive/natural/{format_date}/png/{image_name}.png'
+        get_image(picture_url, picture_name, image_number, nasa_api_key)
 
 
 def main():
@@ -39,6 +30,7 @@ def main():
     parser = argparse.ArgumentParser(
         description='Скачивание фотографий EPIC с сайта NASA'
     )
+    parser.add_argument('name', help='Имя фотографии')
     parser.add_argument('-d', '--date', help='Дата в формате YYYY-MM-DD')
     args = parser.parse_args()
 
@@ -46,7 +38,7 @@ def main():
         epic_url = 'https://api.nasa.gov/EPIC/api/natural'
     else:
         epic_url = f'https://api.nasa.gov/EPIC/api/natural/date/{args.date}'
-    fetch_epic(epic_url, nasa_api_key)
+    fetch_epic(epic_url, nasa_api_key, args.name)
 
 
 if __name__ == '__main__':

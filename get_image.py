@@ -5,12 +5,8 @@ from urllib.parse import urlsplit
 import requests
 
 
-def get_image(image_url, image_name, image_number=1, nasa_api_key=None):
-    if nasa_api_key:
-        params = {'api_key': nasa_api_key}
-        response = requests.get(image_url, params)
-    else:
-        response = requests.get(image_url)
+def get_image(image_url, image_name, params, image_number=1):
+    response = requests.get(image_url, params)
     response.raise_for_status()
 
     image_extension = get_image_extension(image_url)

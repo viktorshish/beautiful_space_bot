@@ -22,7 +22,7 @@ def fetch_nasa_apod(nasa_apod_url, nasa_api_key, count, image_name):
         for image_number, image_url in enumerate(response.json()):
             picture_url = image_url.get('hdurl')
             if picture_url:
-                get_image(picture_url, image_name, image_number)
+                get_image(picture_url, image_name, image_number=image_number)
 
 
 def main():

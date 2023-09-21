@@ -11,7 +11,7 @@ def fetch_spacex_last_launch(spacex_url, image_name):
     image_url = response.json()['links']['flickr']['original']
 
     for image_number, image_url in enumerate(image_url):
-        get_image(image_url, image_name, image_number)
+        get_image(image_url, image_name, image_number=image_number)
 
 
 def main():
@@ -22,7 +22,10 @@ def main():
     parser.add_argument('name', help='Имя фотографии')
     args = parser.parse_args()
 
-    spacex_url = f'https://api.spacexdata.com/v5/launches/{args.launch_id}'
+    if not args.launch_id:
+        spacex_url = f'https://api.spacexdata.com/v5/launches/latest'
+    else:    
+        spacex_url = f'https://api.spacexdata.com/v5/launches/{args.launch_id}'
 
     fetch_spacex_last_launch(spacex_url, args.name)
 

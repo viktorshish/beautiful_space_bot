@@ -5,7 +5,7 @@ from urllib.parse import urlsplit
 import requests
 
 
-def get_image(image_url, image_name, params, image_number=1):
+def get_image(image_url, image_name, params=None, image_number=1):
     response = requests.get(image_url, params)
     response.raise_for_status()
 

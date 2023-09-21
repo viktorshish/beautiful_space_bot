@@ -9,7 +9,6 @@ def get_image(image_url, image_name, image_number=1, nasa_api_key=None):
     if nasa_api_key:
         params = {'api_key': nasa_api_key}
         response = requests.get(image_url, params)
-        print(response)
     else:
         response = requests.get(image_url)
     response.raise_for_status()
